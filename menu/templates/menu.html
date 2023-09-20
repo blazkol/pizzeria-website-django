@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block content %}
+{% if pizza_list %}
+    <table id="menu-card">
+        <tr>
+            <th></th>
+            <th>Medium</th>
+            <th>Large</th>
+        </tr>
+        {% for pizza in pizza_list %}
+        <tr>
+            <td>
+                <div class="pizza-name">{{ pizza.name }}</div>
+                <div class="pizza-ingredients">{{ pizza.ingredients }}</div>
+            </td>
+            <td>
+                <button type="button" class="price-button"> {{ pizza.price_medium }} PLN </button>
+            </td>
+            <td>
+                <button type="button" class="price-button"> {{ pizza.price_large }} PLN </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Pizza not found.</p>
+{% endif %}
+{% endblock %}
