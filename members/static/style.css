@@ -1,0 +1,76 @@
+body {
+    font-family: Verdana, sans-serif;
+}
+
+.bg-theme {
+    background-color: #ee403a;
+}
+
+.text-theme {
+    color: #ee403a;
+}
+
+.btn-theme {
+    color: white;
+    background-color: #ee403a;
+    border-color: #ee403a;
+}
+
+.btn-theme:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+.bg-content {
+    background-color: #fdb454;
+}
+
+.bg-pizza {
+    background-image: url('pizza.jpg');
+    background-repeat: no-repeat;
+}
+
+.sidebar-text li a{
+    text-align: center;
+    font-size: 32px;
+    color: white;
+}
+
+.sidebar-text li:hover {
+    background-color: white;
+}
+
+.sidebar-text li:hover a {
+    color: #ee403a;
+}
+
+.flash-message {
+    position: relative;
+    bottom: 50px;
+    width: 90%;
+    padding: 6px;
+    background-color: #0ba520;
+    color: white;
+    border: 2px solid #02530dd2
+}
+
+.content-section {
+    background-color: wheat;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+#menu-table {
+    border-collapse: separate;
+    border-spacing: 18px;
+}
+
+.pizza-name {
+    width: 600px;
+    font-weight: bold;
+    font-size: 21px;
+}
+
+.pizza-ingredients {
+    font-size: 14px;
+}

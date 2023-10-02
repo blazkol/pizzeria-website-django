@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{% if pizza_list %}
+    <table id="menu-table">
+        <thead>
+            <tr class="text-center">
+                <th scope="col"></th>
+                <th scope="col">Medium</th>
+                <th scope="col">Large</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pizza in pizza_list %}
+            <tr>
+                <td>
+                    <div class="pizza-name">{{ pizza.name }}</div>
+                    <div class="pizza-ingredients">{{ pizza.ingredients }}</div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-theme"> {{ pizza.price_medium }} PLN </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-theme"> {{ pizza.price_large }} PLN </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Pizza not found.</p>
+{% endif %}
+{% endblock %}
