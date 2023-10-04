@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% if pizza_list %}
-    <table id="menu-table">
+    <table class="table table-striped border-dark">
         <thead>
             <tr class="text-center">
                 <th scope="col"></th>
@@ -16,10 +16,10 @@
                     <div class="pizza-name">{{ pizza.name }}</div>
                     <div class="pizza-ingredients">{{ pizza.ingredients }}</div>
                 </td>
-                <td>
+                <td class="align-middle">
                     <button type="button" class="btn btn-theme"> {{ pizza.price_medium }} PLN </button>
                 </td>
-                <td>
+                <td class="align-middle">
                     <button type="button" class="btn btn-theme"> {{ pizza.price_large }} PLN </button>
                 </td>
             </tr>

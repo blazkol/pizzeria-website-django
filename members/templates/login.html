@@ -4,10 +4,17 @@
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
+            <legend class="h2 text-center mb-3 pb-2 border-bottom border-secondary">Log In</legend>
             {{ form|crispy }}
         </fieldset>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-light">Login</button>
+            <button type="submit" class="btn btn-light">Log in</button>
         </div>
     </form>
+    <div class="text-center mt-3 pt-2 border-top border-secondary">
+        <small class="text-muted">
+            Forgot your password? <a href="{% url 'password_reset' %}">Reset password</a><br/>
+            Don't have an account? <a class="ml-2" href="{% url 'register' %}">Sign up now</a>
+        </small>
+    </div>
 {% endblock %}

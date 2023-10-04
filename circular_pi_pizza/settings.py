@@ -126,13 +126,15 @@ USE_TZ = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'members/static')]
 STATIC_URL = 'static/'
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'menu'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'menu'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
