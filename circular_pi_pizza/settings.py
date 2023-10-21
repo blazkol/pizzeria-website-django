@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'menu.apps.MenuConfig',
+    'pizzeria.apps.PizzeriaConfig',
     'registration.apps.RegistrationConfig',
     'django.contrib.admin',
     'django.contrib.auth',

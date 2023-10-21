@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <div class="mb-3">
+                <legend class="h2 text-center pb-2 border-bottom border-secondary">{{ pizza.name }}</legend>
+                <small class="text-muted">{{ pizza.ingredients }}</small>
+            </div>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group text-center">
+            <a class="btn btn-light button-border" href="{% url 'menu' %}" role="button">Back</a>
+            <button type="submit" class="btn btn-light button-border">Add to order</button>
+        </div>
+    </form>
+{% endblock %}

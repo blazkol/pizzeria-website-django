@@ -12,7 +12,6 @@ body {
 
 .bg-pizza {
     background-image: url('pizza.jpg');
-    background-repeat: no-repeat;
 }
 
 .btn-theme {
@@ -24,6 +23,10 @@ body {
 .btn-theme:focus {
     outline: none;
     box-shadow: none;
+}
+
+.button-border, .button-border:hover {
+    border: 1px solid #ced4da
 }
 
 .sidebar-border {
@@ -48,6 +51,15 @@ body {
     background-color: wheat;
     border-radius: 15px;
     padding: 20px;
+}
+
+.table th {
+    padding-bottom: 1em;
+    font-size: 18px;
+}
+
+.table td {
+    padding: 1em;
 }
 
 .pizza-name {
