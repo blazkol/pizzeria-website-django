@@ -17,11 +17,13 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+
 from registration import views as reg_views 
 
 urlpatterns = [
+    path('', include('pizzeria.urls')),
     path('admin/', admin.site.urls),
-    path('register/', reg_views.SignUpView.as_view(), name='register'),
+    path('register/', reg_views.RegisterView.as_view(), name='register'),
     path('profile/', reg_views.ProfileUpdateView.as_view(), name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
@@ -29,9 +31,8 @@ urlpatterns = [
           name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
           name='password_reset_done'),
-    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),
+    path('password-reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),
           name='password_reset_confirm'),
-    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+    path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
           name='password_reset_complete'),
-    path('', include('pizzeria.urls')),
 ]

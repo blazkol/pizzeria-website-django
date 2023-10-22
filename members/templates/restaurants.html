@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if restaurant_list %}
+        {% for restaurant in restaurant_list %}
+            <p>{{ restaurant.city }}, {{ restaurant.address }}, {{ restaurant.phone_number }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Restaurant not found</p>
+    {% endif %}
+{% endblock %}

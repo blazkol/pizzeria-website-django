@@ -24,7 +24,7 @@ from .forms import UserRegisterForm, UserUpdateForm
     }
     return render(request, 'register.html', context) """
 
-class SignUpView(SuccessMessageMixin, CreateView):
+class RegisterView(SuccessMessageMixin, CreateView):
     form_class = UserRegisterForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
