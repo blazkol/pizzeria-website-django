@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Your order will be delivered to you soon!</h2>
-    <div class="text-center mt-3 pt-2 border-top border-secondary">
-        <a href="{% url 'menu' %}" class="text-center">Return to menu</a>
+    <div class="content-section m-auto">
+        <h2>Your order will be delivered to you soon!</h2>
+        <div class="text-center mt-3 pt-2 border-top border-secondary">
+            <a href="{% url 'menu' %}" class="text-center">Return to menu</a>
+        </div>
     </div>
 {% endblock %}

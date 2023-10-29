@@ -1,14 +1,30 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="h2 text-center mb-3 pb-2 border-bottom border-secondary">Ordering details</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-light button-border">Confirm and order</button>
-        </div>
-    </form>
+    <div class="content-section m-auto">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="h2 text-center mb-3 pb-2 border-bottom border-secondary">Ordering details</legend>
+                <legend class="h4 my-3">Restaurant:</legend>
+                {{ form.restaurant|as_crispy_field }}
+                <legend class="h4 my-3">Your data:</legend>
+                {{ form.first_name|as_crispy_field }}
+                {{ form.last_name|as_crispy_field }}
+                {{ form.email|as_crispy_field }}
+                {{ form.phone_number|as_crispy_field }}
+                <legend class="h4 my-3">Delivery details:</legend>
+                {{ form.city|as_crispy_field }}
+                {{ form.house_number|as_crispy_field }}
+                {{ form.street|as_crispy_field }}
+                {{ form.apartment_number|as_crispy_field }}
+                {{ form.comments|as_crispy_field }}
+                <legend class="h4 my-3">Payment method:</legend>
+                {{ form.payment_method|as_crispy_field }}
+            </fieldset>
+            <div class="text-center">
+                <button type="submit" class="btn btn-light button-border">Confirm and order</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

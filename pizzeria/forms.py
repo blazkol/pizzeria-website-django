@@ -1,42 +1,27 @@
 from django import forms
 
-from phonenumber_field.formfields import PhoneNumberField
-
-from .models import Order
-
-class AddToOrderForm(forms.Form):
-    SIZE_CHOICES = [
-        ('medium', 'Medium'),
-        ('large', 'Large'),
-    ]
-    CRUST_CHOICES = [
-        ('thin', 'Thin'),
-        ('thick', 'Thick'),
-    ]
-
-    size = forms.ChoiceField(choices = SIZE_CHOICES) 
-    crust = forms.ChoiceField(choices = CRUST_CHOICES) 
-    quantity = forms.IntegerField(initial=1, min_value=1, max_value=99)
-
+from .models import Restaurant, Order, OrderItem
+ 
 class OrderForm(forms.ModelForm):
-    PAYMENT_CHOICES = [
-        ('cash', 'Cash'),
-        ('card', 'Card'),
-    ]
+    restaurant = forms.ModelChoiceField(queryset=Restaurant.objects.all(), initial=0)
 
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
-    phone_number = PhoneNumberField(region='PL')
-    city = forms.CharField()
-    street = forms.CharField()
-    house_number = forms.IntegerField()
-    apartment_number = forms.IntegerField(required=False)
-    comments = forms.CharField(required=False, widget=forms.Textarea)
-    payment_method = forms.ChoiceField(choices = PAYMENT_CHOICES)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['restaurant'].label_from_instance = self.label_from_instance
+        self.fields['restaurant'].label = False
+        self.fields['payment_method'].label = False
+
+    @staticmethod
+    def label_from_instance(obj):
+        return '%s' % obj.city
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email', 'phone_number',
-                  'city', 'street', 'house_number', 'apartment_number',
-                  'comments', 'payment_method']
+        exclude = ['user', 'date', 'status']
+
+class OrderItemForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput())
+    
+    class Meta:
+        model = OrderItem
+        exclude = ['order', 'pizza']

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.views.generic import ListView
 
 from .models import Pizza, Restaurant
-from .forms import AddToOrderForm, OrderForm
+from .forms import OrderForm, OrderItemForm
 
 class MenuView(ListView):
     model = Pizza
@@ -19,25 +19,24 @@ class RestaurantsView(ListView):
 def add_to_order(request, slug):
     pizza = Pizza.objects.get(slug=slug)
     if request.method == 'POST':
-        form = AddToOrderForm(request.POST)
+        form = OrderItemForm(request.POST)
         if form.is_valid():
-            order_item = {'name': pizza.name}
-            order_item.update(form.cleaned_data)
             if 'order' in request.session:
-                for i in request.session['order']:
-                    if i['name'] == order_item['name'] and i['size'] == order_item['size'] and i['crust'] == order_item['crust']:
-                        i['quantity'] += order_item['quantity']
+                for order_item in request.session['order']:
+                    if order_item['id'] == form.cleaned_data.get('id') and \
+                       order_item['size']  == form.cleaned_data.get('size')  and \
+                       order_item['crust'] == form.cleaned_data.get('crust'):
+                        order_item['quantity'] += form.cleaned_data.get('quantity')
                         break
                 else:
-                    request.session['order'].append(order_item)
+                    request.session['order'].append(form.cleaned_data)
                 request.session.modified = True
             else:
-                request.session['order'] = [order_item]
-            print(request.session['order'])
+                request.session['order'] = [form.cleaned_data]
             messages.success(request, 'Your order has been updated!')
             return redirect('menu')
     else:
-        form = AddToOrderForm()
+        form = OrderItemForm(initial={'id': pizza.id})
 
     context = {
         'pizza': pizza,
@@ -47,9 +46,19 @@ def add_to_order(request, slug):
 
 def order(request):
     order = request.session.get('order')
-    context = {
-        'order': order,
-    }
+    if order:
+        pizza_list = list(Pizza.objects.filter(id__in=[order_item['id'] for order_item in order]).values())
+        order = sorted(order, key=lambda d: d['id'])
+        for (order_item, pizza) in zip(order, pizza_list):
+            order_item.update(pizza)
+            order_item['price'] = order_item['quantity'] * order_item['price_medium'] if order_item['size'] == 'medium' else \
+                                  order_item['quantity'] * order_item['price_large']
+        context = {
+            'order': order,
+            'order_total_price': sum(order_item['price'] for order_item in order)
+        }
+    else:
+        context = {}
     return render(request, 'order.html', context)
 
 def order_confirm(request):
