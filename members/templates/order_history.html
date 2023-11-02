@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section m-auto">
+        {% if orders %}
+            <table class="table table-striped table-spacing border-dark">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td class="align-middle text-center">{{ order.date }}</td>
+                            <td class="align-middle text-center">{{ order.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Your order history is empty</p>
+        {% endif %}
+        <div class="text-center">
+            <a class="btn btn-light button-border" href="{% url 'profile' %}" role="button">Back</a>
+        </div>
+    </div>
+{% endblock %}

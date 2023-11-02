@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import ListView
 
-from .models import Pizza, Restaurant
+from .models import Pizza, Restaurant, Order, OrderItem
 from .forms import OrderForm, OrderItemForm
 
 class MenuView(ListView):
@@ -48,7 +48,7 @@ def order(request):
     order = request.session.get('order')
     if order:
         pizza_list = list(Pizza.objects.filter(id__in=[order_item['id'] for order_item in order]).values())
-        order = sorted(order, key=lambda d: d['id'])
+        order.sort(key=lambda d: d['id'])
         for (order_item, pizza) in zip(order, pizza_list):
             order_item.update(pizza)
             order_item['price'] = order_item['quantity'] * order_item['price_medium'] if order_item['size'] == 'medium' else \
@@ -65,10 +65,23 @@ def order_confirm(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            form.save()
+            if request.user.is_authenticated:
+                new_order = form.save(commit=False)
+                new_order.user = request.user
+                new_order.save()
+            else:
+                new_order = form.save()
+            OrderItem.objects.bulk_create([OrderItem(
+                order=new_order,
+                pizza=Pizza.objects.get(pk=order_item['id']),
+                size=order_item['size'],
+                crust=order_item['crust'],
+                quantity=order_item['quantity'],
+            ) for order_item in request.session['order'] ])
+            request.session['order'].clear()
             return redirect('order_complete')
     else:
-        form = OrderForm()
+            form = OrderForm()
 
     context = {
         'form': form,
@@ -77,4 +90,10 @@ def order_confirm(request):
 
 def order_complete(request):
     return render(request, 'order_complete.html')
+
+def order_history(request):
+    context = {
+        'orders': Order.objects.filter(user=request.user)
+    }
+    return render(request, 'order_history.html', context)
 
