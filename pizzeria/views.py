@@ -97,8 +97,21 @@ def order_confirm(request):
                 quantity=order_item['quantity'],
             ) for order_item in request.session['order'] ])
             request.session['order'].clear()
+            request.session.modified = True
             return redirect('order_complete')
     else:
+        if request.user.is_authenticated:
+            form = OrderForm(initial={
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email,
+                'phone_number': request.user.userdetails.phone_number,
+                'city': request.user.userdetails.city,
+                'street': request.user.userdetails.street,
+                'house_number': request.user.userdetails.house_number,
+                'apartment_number': request.user.userdetails.apartment_number,
+                })
+        else:
             form = OrderForm()
 
     context = {
