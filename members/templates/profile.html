@@ -6,7 +6,8 @@
             {% csrf_token %}
             <fieldset>
                 <legend class="h2 text-center mb-3 pb-2 border-bottom border-secondary">{{ user.username }}</legend>
-                {{ form|crispy }}
+                {{ user_form|crispy }}
+                {{ userdetails_form|crispy }}
             </fieldset>
             <div class="text-center">
                 <a class="btn btn-light button-border" href="{% url 'order_history' %}" role="button">Order history</a>

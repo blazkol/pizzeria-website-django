@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView
 
-from .forms import UserRegisterForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, UserDetailsUpdateForm
 
 """ def register(request):
     if request.method == 'POST':
@@ -30,21 +30,25 @@ class RegisterView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('login')
     success_message = 'Account created successfully!'
 
-""" @login_required
+@login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        userdetails_form = UserDetailsUpdateForm(request.POST, instance=request.user.userdetails)
+        if user_form.is_valid() and userdetails_form.is_valid():
+            user_form.save()
+            userdetails_form.save()
             messages.success(request, 'Your account has been updated!')
             return redirect('profile')
     else:
-        form = UserUpdateForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
+        userdetails_form = UserDetailsUpdateForm(instance=request.user.userdetails)
 
     context = {
-        'form': form,
+        'user_form': user_form,
+        'userdetails_form': userdetails_form,
     }
-    return render(request, 'profile.html', context) """
+    return render(request, 'profile.html', context)
 
 class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
