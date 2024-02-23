@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section m-auto">
+        {% if order_item_list %}
+            <table class="table table-striped table-spacing border-dark">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order_item in order_item_list %}
+                    <tr>
+                        <td>
+                            <div class="pizza-name">{{ order_item.pizza.name }}</div>
+                        </td>
+                        <td class="align-middle text-center">({{ order_item.size }}, {{ order_item.crust }})</td>
+                        <td class="align-middle text-center">{{ order_item.quantity }}</td>
+                        <td class="align-middle text-center">{{ order_item.price|floatformat:2 }} PLN</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p id="total_price_id">Total price of the order: {{ order_total_price|floatformat:2 }} PLN</p>
+            <div class="text-center">
+                <a class="btn btn-light button-border" href="{% url 'order_history' %}" role="button">Back</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

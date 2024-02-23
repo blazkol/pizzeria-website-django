@@ -50,7 +50,7 @@ def profile(request):
     }
     return render(request, 'profile.html', context)
 
-class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+""" class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
     fields = ['first_name', 'last_name']
     template_name = 'profile.html'
@@ -58,4 +58,4 @@ class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = 'Your account has been updated!'
 
     def get_object(self):
-        return self.request.user
+        return self.request.user """

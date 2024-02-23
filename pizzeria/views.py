@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 
 from .models import Pizza, Restaurant, Order, OrderItem
@@ -18,6 +18,29 @@ class RestaurantsView(ListView):
     model = Restaurant
     template_name = 'restaurants.html'
     context_object_name = 'restaurant_list'
+
+class OrderHistoryView(ListView):
+    template_name = 'order_history.html'
+    context_object_name = 'order_list'
+    paginate_by = 4
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user).order_by('-date')
+    
+class OrderDetailsView(DetailView):
+    model = Order
+    template_name = 'order_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_item_list = OrderItem.objects.filter(order=self.kwargs['pk'])
+        for order_item in order_item_list:
+            order_item.price = order_item.quantity * order_item.pizza.price_medium if order_item.size == 'medium' else \
+                                    order_item.quantity * order_item.pizza.price_large
+            print(order_item.price)
+        context['order_item_list'] = order_item_list
+        context['order_total_price'] = sum(order_item.price for order_item in order_item_list)
+        return context
 
 def add_to_order(request, slug):
     pizza = Pizza.objects.get(slug=slug)
@@ -121,10 +144,3 @@ def order_confirm(request):
 
 def order_complete(request):
     return render(request, 'order_complete.html')
-
-def order_history(request):
-    context = {
-        'orders': Order.objects.filter(user=request.user)
-    }
-    return render(request, 'order_history.html', context)
-
