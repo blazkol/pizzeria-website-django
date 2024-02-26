@@ -2,16 +2,27 @@ body {
     font-family: Verdana, sans-serif;
 }
 
-.bg-sidebar {
+.sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    left: 0;
     background-color: #ee403a;
+    border-right: 2px dotted white;
 }
 
-.bg-content {
-    background-color: #fdb454;
+.sidebar ul li a{
+    text-align: center;
+    font-size: 32px;
+    color: white;
 }
 
-.bg-pizza {
-    background-image: url('pizza.jpg');
+.sidebar ul li:hover {
+    background-color: white;
+}
+
+.sidebar ul li:hover a {
+    color: #ee403a;
 }
 
 .btn-theme {
@@ -25,35 +36,38 @@ body {
     box-shadow: none;
 }
 
-.button-border, .button-border:hover {
-    border: 1px solid #ced4da
+.bg-pizza {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    right: 0;
+    background-image: url('pizza.jpg');
 }
 
-.sidebar-border {
-    border-right: 2px dotted white;
-}
-
-.sidebar-text li a{
-    text-align: center;
-    font-size: 32px;
-    color: white;
-}
-
-.sidebar-text li:hover {
-    background-color: white;
-}
-
-.sidebar-text li:hover a {
-    color: #ee403a;
+.bg-content {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    background-color: #fdb454;
 }
 
 .content-section {
     background-color: wheat;
     border-radius: 15px;
-    padding: 20px;
+    margin: auto
+}
+
+.button-border, .button-border:hover {
+    border: 1px solid #ced4da
+}
+
+.field-row {
+    display: flex;
+    column-gap: 1em;
 }
 
 .table th {
+    padding-top: 1em;
     padding-bottom: 1em;
     font-size: 18px;
 }
@@ -69,4 +83,16 @@ body {
 
 .pizza-ingredients {
     font-size: 14px;
+}
+
+.no-asterisk .asteriskField {
+    display: none;
+}
+
+.w-90 {
+    width: 90%;
+}
+
+.w-40 {
+    width: 40%;
 }

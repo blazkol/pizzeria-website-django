@@ -134,6 +134,7 @@ def order_confirm(request):
                 'house_number': request.user.userdetails.house_number,
                 'apartment_number': request.user.userdetails.apartment_number,
                 })
+            form.fields['email'].disabled = True 
         else:
             form = OrderForm()
 

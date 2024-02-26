@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="content-section m-auto">
+    <div class="content-section">
         {% if order_list %}
             {% if is_paginated %}
-                <div class="d-flex justify-content-center mb-3">
+                <div class="d-flex justify-content-center mt-3">
                     {% if page_obj.has_previous %}
                         <a class="btn btn-light button-border" href="?page=1">&#60&#60</a>
                         <a class="btn btn-light button-border" href="?page={{ page_obj.previous_page_number }}">&#60</a>
@@ -44,7 +44,7 @@
         {% else %}
             <p>Your order history is empty</p>
         {% endif %}
-        <div class="text-center">
+        <div class="text-center mb-3">
             <a class="btn btn-light button-border" href="{% url 'profile' %}" role="button">Return to profile</a>
         </div>
     </div>

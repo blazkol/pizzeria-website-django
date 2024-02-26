@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section m-auto">
+    <div class="content-section w-50 p-3">
         <form method="POST">
             {% csrf_token %}
             <fieldset>
@@ -9,15 +9,23 @@
                 <legend class="h4 my-3">Restaurant:</legend>
                 {{ form.restaurant|as_crispy_field }}
                 <legend class="h4 my-3">Your data:</legend>
-                {{ form.first_name|as_crispy_field }}
-                {{ form.last_name|as_crispy_field }}
-                {{ form.email|as_crispy_field }}
-                {{ form.phone_number|as_crispy_field }}
+                <div class="field-row">
+                    {{ form.first_name|as_crispy_field }}
+                    {{ form.last_name|as_crispy_field }}
+                </div>
+                <div class="field-row">
+                    {{ form.email|as_crispy_field }}
+                    {{ form.phone_number|as_crispy_field }}
+                </div>
                 <legend class="h4 my-3">Delivery details:</legend>
-                {{ form.city|as_crispy_field }}
-                {{ form.house_number|as_crispy_field }}
-                {{ form.street|as_crispy_field }}
-                {{ form.apartment_number|as_crispy_field }}
+                <div class="field-row">
+                    {{ form.city|as_crispy_field }}
+                    {{ form.street|as_crispy_field }}
+                </div>
+                <div class="field-row">
+                    {{ form.house_number|as_crispy_field }}
+                    {{ form.apartment_number|as_crispy_field }}
+                </div>
                 {{ form.comments|as_crispy_field }}
                 <legend class="h4 my-3">Payment method:</legend>
                 {{ form.payment_method|as_crispy_field }}

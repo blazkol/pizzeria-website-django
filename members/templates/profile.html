@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section m-auto">
+    <div class="content-section w-40 p-3">
         <form method="POST">
             {% csrf_token %}
             <fieldset>
                 <legend class="h2 text-center mb-3 pb-2 border-bottom border-secondary">{{ user.username }}</legend>
-                {{ user_form|crispy }}
-                {{ userdetails_form|crispy }}
+                <div class="field-row">
+                    {{ user_form.first_name|as_crispy_field }}
+                    {{ user_form.last_name|as_crispy_field }}
+                </div>
+                <div class="field-row">
+                    {{ userdetails_form.city|as_crispy_field }}
+                    {{ userdetails_form.street|as_crispy_field }}
+                </div>
+                <div class="field-row">
+                    {{ userdetails_form.house_number|as_crispy_field }}
+                    {{ userdetails_form.apartment_number|as_crispy_field }}
+                </div>
+                {{ userdetails_form.phone_number|as_crispy_field }}
             </fieldset>
             <div class="text-center">
                 <a class="btn btn-light button-border" href="{% url 'order_history' %}" role="button">Order history</a>

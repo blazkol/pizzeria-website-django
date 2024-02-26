@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section m-auto">
+    <div class="content-section w-40 p-3">
         <form method="POST">
             {% csrf_token %}
-            <fieldset>
+            <fieldset class="no-asterisk">
                 <div class="mb-3">
                     <legend class="h2 text-center pb-2 border-bottom border-secondary">{{ pizza.name }}</legend>
                     <small class="text-muted">{{ pizza.ingredients }}</small>

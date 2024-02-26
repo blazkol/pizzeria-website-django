@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="content-section m-auto">
+    <div class="content-section w-40 p-3">
         {% if restaurant_list %}
             {% for restaurant in restaurant_list %}
-                <p>{{ restaurant.city }}, {{ restaurant.address }}, {{ restaurant.phone_number }}</p>
+                <h4 class="mb-2">{{ restaurant.city }}:</h4>
+                <p class="mb-1">Address: {{ restaurant.address }}</p>
+                <p class="mb-4">Phone number: {{ restaurant.phone_number }}</p>
             {% endfor %}
         {% else %}
-            <p>Restaurant not found</p>
+            <h3 class="text-center mb-0 p-3">Restaurant not found</h3>
         {% endif %}
     </div>
 {% endblock %}
