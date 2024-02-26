@@ -3,7 +3,7 @@
     <div class="content-section w-40 p-3">
         {% if restaurant_list %}
             {% for restaurant in restaurant_list %}
-                <h4 class="mb-2">{{ restaurant.city }}:</h4>
+                <h4 class="fw-bold mb-2">{{ restaurant.city }}:</h4>
                 <p class="mb-1">Address: {{ restaurant.address }}</p>
                 <p class="mb-4">Phone number: {{ restaurant.phone_number }}</p>
             {% endfor %}

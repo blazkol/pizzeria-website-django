@@ -27,7 +27,7 @@
             </table>
             <p class="ps-3" id="total_price_id">Total price of the order: {{ order_total_price|floatformat:2 }} PLN</p>
             <div class="text-center mb-3">
-                <a class="btn btn-light button-border" href="{% url 'order_history' %}" role="button">Back</a>
+                <a class="btn btn-light button-border" href="{% url 'order_history' %}?page={{request.GET.page}}" role="button">Back</a>
             </div>
         {% endif %}
     </div>

@@ -1,8 +1,9 @@
 import json
 
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import FormView, ListView, DetailView
 from django.http import JsonResponse
 
 from .models import Pizza, Restaurant, Order, OrderItem
@@ -42,33 +43,40 @@ class OrderDetailsView(DetailView):
         context['order_total_price'] = sum(order_item.price for order_item in order_item_list)
         return context
 
-def add_to_order(request, slug):
-    pizza = Pizza.objects.get(slug=slug)
-    if request.method == 'POST':
-        form = OrderItemForm(request.POST)
-        if form.is_valid():
-            if 'order' in request.session:
-                for order_item in request.session['order']:
-                    if order_item['id'] == form.cleaned_data.get('id') and \
-                       order_item['size']  == form.cleaned_data.get('size')  and \
-                       order_item['crust'] == form.cleaned_data.get('crust'):
-                        order_item['quantity'] += form.cleaned_data.get('quantity')
-                        break
-                else:
-                    request.session['order'].append(form.cleaned_data)
-                request.session.modified = True
-            else:
-                request.session['order'] = [form.cleaned_data]
-            messages.success(request, 'Your order has been updated!')
-            return redirect('menu')
-    else:
-        form = OrderItemForm(initial={'id': pizza.id})
+class AddToOrderView(SuccessMessageMixin, FormView):
+    form_class = OrderItemForm
+    template_name = 'add_to_order.html'
+    success_url = reverse_lazy('menu')
+    success_message = 'Your order has been updated!'
 
-    context = {
-        'pizza': pizza,
-        'form': form,
-    }
-    return render(request, 'add_to_order.html', context)
+    def dispatch(self, request, *args, **kwargs):
+        self.pizza = Pizza.objects.get(slug=self.kwargs.get("slug"))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['id'] = self.pizza.id
+        return initial
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pizza'] = self.pizza
+        return context
+    
+    def form_valid(self, form):
+        if 'order' in self.request.session:
+            for order_item in self.request.session['order']:
+                if order_item['id'] == form.cleaned_data.get('id') and \
+                   order_item['size']  == form.cleaned_data.get('size')  and \
+                   order_item['crust'] == form.cleaned_data.get('crust'):
+                    order_item['quantity'] += form.cleaned_data.get('quantity')
+                    break
+            else:
+                self.request.session['order'].append(form.cleaned_data)
+            self.request.session.modified = True
+        else:
+            self.request.session['order'] = [form.cleaned_data]
+        return super().form_valid(form)
 
 def order(request):
     if request.method == 'GET':
